@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Audio Pro Shop — Yimer Sanabria · Hardware Analógico de Referencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --primary:        #E8642A;
+  --primary-dim:    rgba(232,100,42,0.12);
+  --primary-glow:   rgba(232,100,42,0.25);
+  --gold:           #C8A96E;
+  --gold-dim:       rgba(200,169,110,0.12);
+  --bg:             #080808;
+  --bg-2:           #0F0F0F;
+  --bg-3:           #161616;
+  --card:           #111111;
+  --card-2:         #141414;
+  --border:         rgba(255,255,255,0.06);
+  --border-md:      rgba(255,255,255,0.10);
+  --border-hot:     rgba(232,100,42,0.35);
+  --border-gold:    rgba(200,169,110,0.30);
+  --text:           #EDE9E3;
+  --text-mid:       #ABA7A1;
+  --text-dim:       #6A6662;
+  --green:          #00D97E;
+  --green-dim:      rgba(0,217,126,0.10);
+  --red:            #E84242;
+  --red-dim:        rgba(232,66,66,0.10);
+  --yellow:         #F5C842;
+  --yellow-dim:     rgba(245,200,66,0.10);
+  --whatsapp:       #25D366;
+  --vu-g:           #00FF88;
+  --vu-y:           #FFD700;
+  --vu-r:           #FF3333;
+
+  /* n8n Overrides */
+  --n8n-chat-primary-color: #E8642A;
+  --n8n-chat-button-background: #E8642A;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── GRAIN ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:0.028;
+  pointer-events:none;
+  z-index:9998;
+}
+
+/* ── SCROLL ── */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px;}
+
+/* ═══════════════════════════════════════════════
+   COMPONENTS (TOPBAR, BANNER, HEADER)
+═══════════════════════════════════════════════ */
+.vu-topbar{
+  width:100%;height:3px;
+  background:linear-gradient(90deg,var(--vu-g) 0%,var(--vu-g) 58%,var(--vu-y) 58%,var(--vu-y) 80%,var(--vu-r) 80%);
+  position:relative;overflow:hidden;
+}
+.vu-topbar::after{
+  content:'';
+  position:absolute;top:0;left:-40%;width:40%;height:100%;
+  background:rgba(255,255,255,0.5);
+  animation:vuSweep 2.8s ease-in-out infinite alternate;
+}
+@keyframes vuSweep{from{left:-40%;}to{left:100%;}}
+
+.promo-banner{
+  background:var(--primary);
+  padding:9px 20px;
+  text-align:center;
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:2px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+#countdown-display{
+  background:rgba(0,0,0,0.25);
+  padding:3px 10px;
+  border-radius:3px;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:3px;
+}
+
+header{
+  padding:0 clamp(16px,5vw,72px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:200;
+  background:rgba(8,8,8,0.93);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.header-inner{
+  max-width:1440px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;gap:20px;
+}
+.logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.75rem;color:var(--primary);
+  letter-spacing:4px;line-height:1;
+}
+.logo-tag{
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem;color:var(--text-dim);
+  letter-spacing:2px;text-transform:uppercase;
+}
+
+.live-pill{
+  display:flex;align-items:center;gap:7px;
+  background:var(--green-dim);
+  border:1px solid rgba(0,217,126,0.25);
+  color:var(--green);
+  padding:7px 13px;border-radius:20px;
+  font-size:0.7rem;font-family:'DM Mono',monospace;
+  text-decoration:none;transition:all .2s;
+  cursor:pointer;
+}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+.cart-btn{
+  background:var(--primary-dim);border:1px solid var(--border-hot);
+  color:var(--primary);padding:8px 14px;border-radius:4px;
+  font-family:'DM Mono',monospace;font-size:0.72rem;
+  cursor:pointer;display:flex;align-items:center;gap:6px;
+}
+#count-header{background:var(--primary);color:#fff;padding:1px 6px;border-radius:10px;font-size:0.65rem;min-width:18px;text-align:center;}
+
+/* ── HERO ── */
+.hero{max-width:1440px;margin:0 auto;padding:clamp(50px,8vh,110px) clamp(16px,5vw,72px);display:grid;grid-template-columns:1fr;gap:40px;}
+@media(min-width:960px){.hero{grid-template-columns:1.1fr 0.9fr;align-items:center;}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.8rem,9vw,7.5rem);line-height:.88;color:var(--text);margin-bottom:18px;}
+.hero-title em{color:var(--primary);font-style:normal;}
+.hero-desc{font-size:.95rem;color:var(--text-mid);line-height:1.75;font-weight:300;max-width:430px;margin-bottom:28px;}
+
+/* ── FLASH & BUNDLE ── */
+.flash-section{max-width:1440px;margin:0 auto;padding:0 clamp(16px,5vw,72px) 50px;}
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.flash-card{background:var(--card);border:1px solid var(--border-hot);border-radius:8px;display:flex;align-items:center;gap:14px;padding:14px;position:relative;overflow:hidden;transition:all .2s;}
+.flash-img{width:70px;height:70px;object-fit:contain;background:#000;border-radius:6px;}
+
+.bundle-section{max-width:1440px;margin:0 auto;padding:0 clamp(16px,5vw,72px) 60px;}
+.bundle-card{background:linear-gradient(135deg,var(--card) 0%,var(--bg-2) 100%);border:1px solid var(--border-gold);border-radius:12px;padding:32px;position:relative;}
+.bundle-new-price{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:var(--gold);line-height:1;}
+
+/* ── CATALOG & LAYOUT ── */
+.filters-wrapper{max-width:1440px;margin:0 auto;padding:0 clamp(16px,5vw,72px) 36px;}
+.section-topbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.filters button{background:transparent;color:var(--text-dim);border:none;border-bottom:2px solid transparent;padding:13px 18px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.8rem;text-transform:uppercase;}
+.filters button.active{color:var(--primary);border-bottom-color:var(--primary);}
+
+.main-wrapper{max-width:1440px;margin:0 auto;padding:0 clamp(16px,5vw,72px) 80px;display:grid;grid-template-columns:1fr;gap:40px;}
+@media(min-width:1100px){.main-wrapper{grid-template-columns:1fr 370px;}}
+
+#productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.producto{background:var(--card-2);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:all .2s;position:relative;}
+.producto:hover{border-color:var(--border-hot);transform:translateY(-3px);}
+.prod-img-wrap{width:100%;height:155px;background:#000;overflow:hidden;}
+.prod-img-wrap img{width:100%;height:100%;object-fit:contain;padding:10px;}
+.prod-info{padding:12px 14px;flex:1;}
+.prod-price{font-family:'DM Mono',monospace;font-size:.95rem;color:var(--text);font-weight:500;}
+
+/* ── CARRITO ── */
+.carrito{position:sticky;top:90px;background:var(--card);border:1px solid var(--border-md);border-radius:10px;overflow:hidden;}
+.carrito-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cart-breakdown{padding:16px 22px;background:var(--bg-3);border-top:1px solid var(--border);}
+.btn-whatsapp-cart{width:100%;background:var(--whatsapp);color:#fff;border:none;padding:13px;border-radius:6px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* ── FLOATING BUTTONS ── */
+/* WhatsApp: Movido a la izquierda (right: 100px) para no tapar el chat de n8n */
+.wa-float{
+  position:fixed;bottom:28px;right:100px;z-index:300;
+  background:var(--whatsapp);color:#fff;
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(37,211,102,.4);
+  cursor:pointer;text-decoration:none;
+  transition:all .2s;
+}
+.wa-float:hover{transform:scale(1.08);}
+.wa-tooltip{
+  position:fixed;bottom:34px;right:166px;z-index:299;
+  background:var(--card);border:1px solid var(--border-md);
+  color:var(--text);padding:8px 14px;border-radius:6px;
+  font-size:.72rem;font-family:'DM Mono',monospace;
+  opacity:0;transition:all .25s;pointer-events:none;
+}
+.wa-float:hover + .wa-tooltip{opacity:1;}
+
+footer{text-align:center;padding:28px 20px;font-family:'DM Mono',monospace;font-size:.6rem;color:var(--text-dim);border-top:1px solid var(--border);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card-2);border:1px solid var(--border-hot);color:var(--text);padding:10px 22px;border-radius:5px;opacity:0;transition:all .28s;z-index:1000;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-10px);}
+</style>
+</head>
+<body>
+
+<div class="vu-topbar"></div>
+
+<div class="promo-banner">
+  <strong>⚡ OFERTA RELÁMPAGO</strong>
+  <span>Descuentos activos por:</span>
+  <span id="countdown-display">00:00:00</span>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-group">
+      <div class="logo">Audio Pro</div>
+      <div class="logo-tag">Yimer Sanabria · Bogotá</div>
+    </div>
+    <div class="header-right">
+      <a href="https://wa.me/573003236175" target="_blank" class="live-pill">
+        <span class="live-dot"></span>
+        <span id="txt-live">Asesoría en Vivo</span>
+      </a>
+      <button onclick="cambiarIdioma()" id="btn-idioma">🇺🇸 EN</button>
+      <button class="cart-btn" onclick="scrollToCart()">
+        🧾 Rack <span id="count-header">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Bogotá, Colombia — Est. 2023</div>
+    <h1 class="hero-title" id="txt-titulo">Hardware<br><em>de Alta</em><br>Gama</h1>
+    <p class="hero-desc" id="txt-subtitulo">Preamps, compresores e interfaces de referencia para ingenieros de sonido.</p>
+    <div class="hero-cta-row">
+      <button class="btn-primary" onclick="scrollToCatalog()" id="txt-cta1">Ver Catálogo</button>
+      <a href="https://wa.me/573003236175" target="_blank" class="btn-outline" id="txt-cta2">Hablar con Yimer</a>
+    </div>
+  </div>
+  <div class="vu-card">
+    <div class="vu-ch-label">CH 1 — PREAMP BUS</div>
+    <div class="vu-track"><div class="vu-fill vf1" style="width:70%; background:var(--vu-g);"></div></div>
+    <div class="vu-ch-label">CH 3 — MASTER BUS</div>
+    <div class="vu-track"><div class="vu-fill vf3" style="width:85%; background:var(--vu-y);"></div></div>
+    <div class="vu-stats">
+      <div><div class="vu-stat-num">6</div><div class="vu-stat-lbl">Equipos</div></div>
+      <div><div class="vu-stat-num">🇨🇴</div><div class="vu-stat-lbl">Envío local</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="flash-section">
+  <div class="flash-header">
+    <span class="flash-badge">⚡ FLASH SALE</span>
+    <h2 class="flash-title">Ofertas Relámpago</h2>
+  </div>
+  <div class="flash-grid" id="flash-grid"></div>
+</div>
+
+<div class="filters-wrapper" id="catalog-anchor">
+  <div class="section-topbar">
+    <div class="sec-title" id="txt-catalogo">Catálogo Completo</div>
+    <nav class="filters">
+      <button onclick="filtrar('todos')" class="active" id="fb-todos">Todos</button>
+      <button onclick="filtrar('preamp')" id="fb-preamp">Preamps</button>
+      <button onclick="filtrar('dinamica')" id="fb-dinamica">Dinámica</button>
+    </nav>
+  </div>
+</div>
+
+<div class="main-wrapper">
+  <main>
+    <div id="productos"></div>
+  </main>
+
+  <aside class="carrito" id="carrito">
+    <div class="carrito-header">
+      <div class="carrito-title">Rack</div>
+      <div class="carrito-pill"><span id="count">0</span> items</div>
+    </div>
+    <ul id="lista-carrito"><li class="empty-msg">El rack está vacío</li></ul>
+    <div class="cart-breakdown">
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span>TOTAL</span>
+        <strong>COP $<span id="total">0</span></strong>
+      </div>
+      <button class="btn-whatsapp-cart" onclick="finalizarCompra()">Comprar por WhatsApp</button>
+    </div>
+  </aside>
+</div>
+
+<footer>© 2026 Audio Pro Shop — Yimer Sanabria · Bogotá, Colombia</footer>
+
+<a href="https://wa.me/573003236175" target="_blank" class="wa-float" title="WhatsApp Asesoría">
+  <svg viewBox="0 0 24 24" width="26" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<div class="wa-tooltip">Asesoría técnica en vivo</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const productos = [
+  { id:1, nombre:"Preamp Neve 1073LB", precio:9180000, categoria:"preamp", flashSale:false, imagen:"https://musicalboutique.co/cdn/shop/products/neve-1073lb_16264_1_1_1.jpg?v=1642869699&width=1445" },
+  { id:2, nombre:"UA 1176 Classic Limiter", precio:8836600, categoria:"dinamica", flashSale:true, imagen:"https://www.proaudiodesign.com/cdn/shop/products/9a089106e77137496682794aa8c83125.jpeg?v=1571499041&width=2048" },
+  { id:3, nombre:"Pultec EQP-1A Equalizer", precio:13243000, categoria:"dinamica", flashSale:true, imagen:"https://media.sweetwater.com/api/i/q-82__w-750__ha-8d13166ad55ba98f__hmac-b10d860fc7ae7957e5001326d25952b353748cf1/images/closeup/750-EQP1A_detail1.jpg" }
+];
+
+let carrito = [];
+let lang = "es";
+let catActual = "todos";
+
+const f = n => Math.round(n).toLocaleString('es-CO');
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function scrollToCatalog(){ document.getElementById('catalog-anchor').scrollIntoView({behavior:'smooth'}); }
+function scrollToCart(){ document.getElementById('carrito').scrollIntoView({behavior:'smooth'}); }
+
+function renderCatalog(){
+  const cont = document.getElementById('productos');
+  const filtered = catActual==='todos' ? productos : productos.filter(p=>p.categoria===catActual);
+  cont.innerHTML = filtered.map(p => `
+    <div class="producto">
+      <div class="prod-img-wrap"><img src="${p.imagen}" loading="lazy"></div>
+      <div class="prod-info">
+        <div class="prod-name">${p.nombre}</div>
+        <div class="prod-price">COP $${f(p.precio)}</div>
+      </div>
+      <button class="prod-add" onclick="agregarAlCarrito(${p.id})">Añadir al Rack</button>
+    </div>
+  `).join('');
+}
+
+function agregarAlCarrito(id){
+  const p = productos.find(x=>x.id===id);
+  const existe = carrito.find(x=>x.id===id);
+  if(existe) existe.cantidad++; else carrito.push({...p, cantidad:1});
+  showToast(`✓ ${p.nombre}`);
+  renderCart();
+}
+
+function renderCart(){
+  const lista = document.getElementById('lista-carrito');
+  lista.innerHTML = carrito.length === 0 ? '<li class="empty-msg">El rack está vacío</li>' : 
+    carrito.map(i => `<li style="padding:10px; border-bottom:1px solid #222; display:flex; justify-content:space-between;">
+      <span>${i.nombre} (x${i.cantidad})</span>
+      <span>$${f(i.precio*i.cantidad)}</span>
+    </li>`).join('');
+  const total = carrito.reduce((s,i)=>s+(i.precio*i.cantidad),0);
+  document.getElementById('total').textContent = f(total);
+  document.getElementById('count').textContent = carrito.length;
+  document.getElementById('count-header').textContent = carrito.length;
+}
+
+function filtrar(cat){
+  catActual = cat;
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('fb-'+cat).classList.add('active');
+  renderCatalog();
+}
+
+function finalizarCompra(){
+  if(carrito.length===0) return;
+  let msg = "Hola Yimer, pedido: " + carrito.map(i=>`${i.nombre} x${i.cantidad}`).join(", ");
+  window.open("https://wa.me/573003236175?text=" + encodeURIComponent(msg));
+}
+
+function cambiarIdioma(){ lang = lang==="es"?"en":"es"; showToast(lang==="es"?"Idioma: Español":"Language: English"); }
+
+// Init
+setInterval(() => { const d=new Date(); document.getElementById('countdown-display').textContent=d.toLocaleTimeString(); }, 1000);
+renderCatalog();
+</script>
+
+<script type="module">
+  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+  createChat({
+    webhookUrl: 'https://timbless98.app.n8n.cloud/webhook/275bfc29-52ea-4081-9549-34af48a800a6/chat',
+    title: 'AudioBot Pro 🎛️',
+    subtitle: 'Asistente técnico · Audio Pro Shop',
+    initialMessages: [
+      '¡Hola! Soy AudioBot Pro.',
+      'Pregúntame sobre preamps, compresores, precios o envíos. ¿En qué te ayudo?'
+    ],
+    i18n: {
+      es: {
+        inputPlaceholder: 'Pregunta sobre equipos, precios...',
+        sendButtonText: 'Enviar'
+      }
+    },
+    style: {
+      primaryColor: '#E8642A',
+      backgroundColor: '#0F0F0F'
+    }
+  });
+</script>
+
+</body>
+</html>
